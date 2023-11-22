@@ -7,7 +7,8 @@ chatRoute.post('/', async (req: Request, res: Response) => {
     try {        
         const { query } = req.body
         const ip = req.ip
-        console.log({ip});
+        const ip2 = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        console.log({ip2});
         if(!query) throw 'Debe ingresar una consulta'
         const respuestaIA = await chat(query)
         res.status(200).json(respuestaIA)
