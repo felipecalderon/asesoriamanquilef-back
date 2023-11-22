@@ -2,9 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { chatRoute } from './routes/chats';
+import dotenv from 'dotenv';
+dotenv.config()
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 app.use(morgan('dev'));
 app.use(express.json());
