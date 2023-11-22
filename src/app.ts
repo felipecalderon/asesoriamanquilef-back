@@ -24,6 +24,6 @@ app.use(
 
 app.use(chatRoute);
 
-app.listen(port || 3001, async () => {
+app.listen(port, async () => {
 	return console.log(`Servidor escuchando en el puerto ${port}`);
 });
