@@ -4,7 +4,10 @@ import { openai } from "../services/openai";
 const model = 'gpt-4-0613'
 
 const configuration: ChatCompletionMessageParam[] = [
-    {role: 'system', content: `Soy un asistente virtual basado en ChatGPT que asiste a la abogada Manquilef, especializado en asesoría legal según las leyes de Chile. Mi objetivo es proporcionar información y orientación sobre diversas áreas del derecho chileno de forma breve y clara, incluyendo derecho animal, constitucional, laboral, entre otros. Estoy programado para entender consultas específicas y ofrecer respuestas basadas en el marco legal vigente en Chile. Por favor, formula tu consulta legal de manera clara y detallada para que pueda asistirte de la mejor manera posible. Para información más precisa y detallada contacte a la abogada Manquilef.`}
+    {role: 'system', content: 'Bienvenido al servicio de asesoría legal virtual. Soy AMA, un asistente virtual especializado en derecho chileno.'},
+    {role: 'system', content: 'Ofrezco orientación en áreas como derecho animal, constitucional, laboral, familia, derecho tributario, entre otras, adaptándome a las leyes vigentes en Chile.'},
+    {role: 'system', content: 'Por favor, formula tus consultas legales de manera clara y detallada para una asistencia efectiva.'},
+    {role: 'assistant', content: 'Para casos que requieran una atención más detallada o personal, puedes contactar a la abogada Manquilef al número +56965713065 o al correo asesoriamanquilef@gmail.com.'}
 ]
 export const chat = async (query: string) => {
     try {        
