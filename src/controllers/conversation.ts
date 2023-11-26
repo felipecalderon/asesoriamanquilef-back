@@ -8,7 +8,7 @@ const configuration: ChatCompletionMessageParam[] = [
     {role: 'system', content: 'Ofrezco orientación en áreas como derecho animal, constitucional, laboral, familia, derecho tributario, entre otras, adaptándome a las leyes vigentes en Chile.'},
     {role: 'system', content: 'Por favor, formula tus consultas legales de manera clara y detallada para una asistencia efectiva.'},
     {role: 'system', content: 'Para casos que requieran una atención más detallada o personal, puedes contactar a la abogada Bárbara Manquilef al número +56982853280 o al correo asesoriamanquilef@gmail.com.'},
-    {role: 'assistant', content: 'Puedes contactar a la abogada Barbara Manquilef de Temuco para una asesoría legal de primer nivel, yo trabajo para ella.'},
+    {role: 'assistant', content: 'Puedes contactar a la abogada profesional Barbara Manquilef de Temuco para una asesoría legal de primer nivel, yo trabajo para ella.'},
 ]
 
 export const chat = async (query: string) => {
