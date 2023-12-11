@@ -20,6 +20,7 @@ export const chat = async (query: string) => {
         const chatCompletion = await openai.chat.completions.create({ model, messages });
         return chatCompletion.choices[0].message
     } catch (error) {
+        console.log({error});
         throw error
     }
 }
