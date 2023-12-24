@@ -14,13 +14,64 @@ const configuration: ChatCompletionMessageParam[] = [
 
 export const chat = async (query: string) => {
     console.log({modelo_GPT: model});
+
+    const tools = [ usuarioNecesitaDocumento ]
     try {        
         const message: ChatCompletionMessageParam = {role: 'user', content: query}
         const messages = [...configuration, message]
-        const chatCompletion = await openai.chat.completions.create({ model, messages });
+        const chatCompletion = await openai.chat.completions.create(
+            { 
+                model, 
+                messages,
+                tools: tools,
+                tool_choice: 'auto'
+            });
+        const funciones = chatCompletion.choices[0].message?.tool_calls
+
+        if(funciones){
+            const funcionLlamada = funciones[0].function
+            switch(funcionLlamada.name){
+                case 'generarDocumento': return generarDocumento(query)
+            }
+        }
+
         return chatCompletion.choices[0].message
     } catch (error) {
         console.log({error});
         throw error
     }
+}
+
+const generarDocumento = async (query: string) => {
+    const instruccion: ChatCompletionMessageParam = {
+        role: 'system', 
+        content: 'Muestra un ejemplo de un documento legal, responde sólo en formato JSON con las propiedades titulo (string: nombre del documento) y detalle (string: contenido que debe tener dicho documento)'}
+    const userMessage: ChatCompletionMessageParam = {
+        role: "assistant",
+        content: query
+    }
+
+    const chatCompletion = await openai.chat.completions.create({ 
+            model, 
+            messages: [instruccion, userMessage]
+        });
+    return chatCompletion.choices[0].message
+}
+
+const usuarioNecesitaDocumento = {
+    type: "function" as const,
+    function: {
+        name: "generarDocumento",
+        description: "Determina si la consulta necesita un documento",
+        parameters: {
+            type: "object",
+            properties: {
+                query: {
+                    type: "string",
+                    description: "La consulta del usuario",
+                },
+            },
+            required: ["query"],
+        },
+    },
 }
