@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import { chatRoute } from './routes/chats';
+import rutas from './routes'
 import dotenv from 'dotenv';
 dotenv.config()
 
@@ -22,7 +22,7 @@ app.use(
 	})
 );
 
-app.use(chatRoute);
+app.use(rutas);
 
 app.listen(port, async () => {
 	return console.log(`Servidor escuchando en el puerto ${port}`);

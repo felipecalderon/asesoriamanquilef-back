@@ -1,20 +1,20 @@
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
 import { openai } from "../services/openai";
+import { usuarioNecesitaDocumento } from "../utils/tools";
+import { generarDocumento } from "./generateDocGPT";
 
 const model = process.env.GPTModel || 'gpt-4-0613'
 
 const configuration: ChatCompletionMessageParam[] = [
-    {role: 'system', content: 'Ofrezco un servicio de asesoría legal virtual. Soy un asistente virtual especializado en derecho chileno, trabajo directamente para la abogada Manquilef, la asisto en consultas generales.'},
-    {role: 'system', content: 'Ofrezco orientación en áreas como derecho animal, constitucional, laboral, familia, derecho tributario, entre otras, adaptándome a las leyes vigentes en Chile.'},
-    {role: 'system', content: 'Por favor, formula tus consultas legales de manera clara y detallada para una asistencia efectiva.'},
-    {role: 'system', content: 'Para casos que requieran una atención más detallada o personal, te recomiendo contactar a la abogada Bárbara Manquilef al número +56982853280 o al correo asesoriamanquilef@gmail.com.'},
+    {role: 'system', content: 'Ofrezco un servicio de asesoría legal virtual. Especializado en derecho chileno, trabajo directamente para la abogada Manquilef, la asisto en consultas generales.'},
+    {role: 'system', content: 'Doy orientación en áreas como derecho animal, constitucional, laboral, familia, derecho tributario, entre otras, adaptándome a las leyes vigentes en Chile.'},
+    {role: 'system', content: 'Para casos que requieran una atención más detallada o personal, debes contactar a la abogada Bárbara Manquilef al número +56982853280 o al correo asesoriamanquilef@gmail.com.'},
     {role: 'system', content: 'Barbara Manquilef es Licenciada en Ciencias Jurídicas, egresada de la Universidad Católica de Temuco, con diplomaturas en Derecho Animal de la Universidad de Concepción, posee además el curso de actualización de Gestión Municipal y Aplicación de la Ley N°21.020 sobre Tenencia Responsable.'},
-    {role: 'assistant', content: 'Puedes contactar a la abogada profesional Barbara Manquilef de Temuco para una asesoría legal de primer nivel, yo trabajo para ella.'},
 ]
 
 export const chat = async (query: string) => {
     console.log({modelo_GPT: model});
-
+    
     const tools = [ usuarioNecesitaDocumento ]
     try {        
         const message: ChatCompletionMessageParam = {role: 'user', content: query}
@@ -40,38 +40,4 @@ export const chat = async (query: string) => {
         console.log({error});
         throw error
     }
-}
-
-const generarDocumento = async (query: string) => {
-    const instruccion: ChatCompletionMessageParam = {
-        role: 'system', 
-        content: 'Muestra un ejemplo de un documento legal, responde sólo en formato JSON con las propiedades titulo (string: nombre del documento) y detalle (string: contenido que debe tener dicho documento)'}
-    const userMessage: ChatCompletionMessageParam = {
-        role: "assistant",
-        content: query
-    }
-
-    const chatCompletion = await openai.chat.completions.create({ 
-            model, 
-            messages: [instruccion, userMessage]
-        });
-    return chatCompletion.choices[0].message
-}
-
-const usuarioNecesitaDocumento = {
-    type: "function" as const,
-    function: {
-        name: "generarDocumento",
-        description: "Determina si la consulta necesita un documento",
-        parameters: {
-            type: "object",
-            properties: {
-                query: {
-                    type: "string",
-                    description: "La consulta del usuario",
-                },
-            },
-            required: ["query"],
-        },
-    },
 }
