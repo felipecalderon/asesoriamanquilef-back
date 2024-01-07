@@ -22,7 +22,7 @@ app.use(
 	})
 );
 
-app.use(rutas);
+app.use('/api', rutas);
 
 app.listen(port, async () => {
 	return console.log(`Servidor escuchando en el puerto ${port}`);
