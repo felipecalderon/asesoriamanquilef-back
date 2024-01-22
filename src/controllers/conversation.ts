@@ -2,6 +2,7 @@ import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mj
 import { openai } from "../services/openai";
 import { usuarioNecesitaDocumento } from "../utils/tools";
 import { generarDocumento } from "./generateDocGPT";
+import { Socket } from "socket.io";
 
 const model = process.env.GPTModel || 'gpt-4-0613'
 
@@ -12,7 +13,7 @@ const configuration: ChatCompletionMessageParam[] = [
     {role: 'system', content: 'Barbara Manquilef es Licenciada en Ciencias Jurídicas, egresada de la Universidad Católica de Temuco, con diplomaturas en Derecho Animal de la Universidad de Concepción, posee además el curso de actualización de Gestión Municipal y Aplicación de la Ley N°21.020 sobre Tenencia Responsable.'},
 ]
 
-export const chat = async (query: string) => {
+export const chat = async (query: string, socket?: Socket) => {
     console.log({modelo_GPT: model});
     
     const tools = [ usuarioNecesitaDocumento ]
@@ -31,7 +32,10 @@ export const chat = async (query: string) => {
         if(funciones){
             const funcionLlamada = funciones[0].function
             switch(funcionLlamada.name){
-                case 'generarDocumento': return generarDocumento(query)
+                case 'generarDocumento': {
+                    if(socket) return generarDocumento(query, socket)
+                    return generarDocumento(query)
+                }
             }
         }
 
