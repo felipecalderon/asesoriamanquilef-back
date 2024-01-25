@@ -2,7 +2,7 @@ export const usuarioNecesitaDocumento = {
     type: "function" as const,
     function: {
         name: "generarDocumento",
-        description: "Determina si la consulta necesita un documento",
+        description: "El usuario necesita crear y generar un contrato legal",
         parameters: {
             type: "object",
             properties: {
