@@ -24,8 +24,8 @@ export const chat = async (query: string, socket?: Socket) => {
             { 
                 model, 
                 messages,
-                tools: tools,
-                tool_choice: 'auto'
+                // tools: tools,
+                // tool_choice: 'auto'
             });
         const funciones = chatCompletion.choices[0].message?.tool_calls
 
