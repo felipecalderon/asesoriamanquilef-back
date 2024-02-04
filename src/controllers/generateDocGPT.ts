@@ -13,7 +13,7 @@ interface PDFcontent {
 export const generarDocumento = async (query: string, socket?: Socket) => {
     const instruccion: ChatCompletionMessageParam = {
         role: 'system', 
-        content: 'Eres un experto asesor jurídico, Crea el detalle de las clausulas que necesita el contrato solicitado por el usuario, responde en formato JSON con las propiedades: titulo (string: nombre del documento) y detalle (string: cláusulas que debe tener dicho documento)'}
+        content: 'Eres un experto asesor jurídico, Crea las clausulas que necesita el contrato solicitado por el usuario, responde en formato JSON con las propiedades: titulo (string: nombre del documento) y detalle (string: cláusulas que debe tener dicho documento completo y con saltos de línea)'}
     const userMessage: ChatCompletionMessageParam = {
         role: "assistant",
         content: query
