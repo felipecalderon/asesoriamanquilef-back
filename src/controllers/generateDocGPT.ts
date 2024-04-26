@@ -1,8 +1,6 @@
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { openai } from "../services/openai";
 import { generarPDF } from "../utils/toPDF";
-import { subirPDFaFirebase } from "../utils/setFileFB";
-import { storage } from "../services/firebase";
 import { Socket } from "socket.io";
 
 const model = process.env.GPTModel || 'gpt-4-0613'
@@ -38,5 +36,5 @@ export const generarDocumento = async (query: string, socket?: Socket) => {
     socket?.emit('chat_response', res('Aquí va el documento...'));
     const pdfGenerado = await generarPDF(contenidoJSON)
     const nombreArchivo = contenidoJSON.titulo.replace(' ', '-').toLowerCase() + '.pdf'
-    return await subirPDFaFirebase(pdfGenerado, nombreArchivo, storage)
+    // return await subirPDFaFirebase(pdfGenerado, nombreArchivo, storage)
 }

@@ -1,4 +1,4 @@
-import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
+import { ChatCompletionMessageParam, ChatCompletionTool } from "openai/resources/chat/completions.mjs";
 import { openai } from "../services/openai";
 import { usuarioNecesitaDocumento } from "../utils/tools";
 import { generarDocumento } from "./generateDocGPT";
@@ -16,16 +16,15 @@ const configuration: ChatCompletionMessageParam[] = [
 export const chat = async (query: string, socket?: Socket) => {
     console.log({modelo_GPT: model});
     
-    const tools = [ usuarioNecesitaDocumento ]
-    try {        
+    // const tools = [ usuarioNecesitaDocumento ]
+    const tools: ChatCompletionTool[]= []
+    try {
         const message: ChatCompletionMessageParam = {role: 'user', content: query}
         const messages = [...configuration, message]
         const chatCompletion = await openai.chat.completions.create(
             { 
                 model, 
                 messages,
-                tools: tools,
-                tool_choice: 'none'
             });
         const funciones = chatCompletion.choices[0].message?.tool_calls
 
