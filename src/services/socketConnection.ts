@@ -1,14 +1,13 @@
 import { Socket } from "socket.io";
 import { chat } from "../controllers/conversation";
+import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
 export const socketConnection = (socket: Socket) => {
 	console.log('Un cliente se ha conectado');
 
-	socket.on('chat_query', async (data) => {
+	socket.on('chat_query', async (data: ChatCompletionMessageParam[]) => {
 		try {
-			console.log(data);
-			const tempRes = {role: 'assistant', content: 'Ok dejame buscar en mi base de datos, dame un momento porfavor..'}
-			const respuestaIA = await chat(data.query, socket);
+			const respuestaIA = await chat(data);
 			socket.emit('chat_response', respuestaIA);
 		} catch (error) {
 			socket.emit('chat_error', error);

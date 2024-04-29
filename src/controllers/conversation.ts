@@ -15,7 +15,7 @@ const configuration: ChatCompletionMessageParam[] = [
     {role: 'assistant', content: 'Para casos que requieran una atención más detallada o personal, debes contactar a la abogada Bárbara Manquilef presionando el botón de Whatsapp en el sitio web'},
 ]
 
-export const chat = async (query: ChatCompletionMessageParam[], socket?: Socket) => {
+export const chat = async (query: ChatCompletionMessageParam[]) => {
     console.log({modelo_GPT: model});
     // const tools = [ usuarioNecesitaDocumento ]
     const tools: ChatCompletionTool[]= []
