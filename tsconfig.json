@@ -4,8 +4,9 @@
     "module": "NodeNext",
     "outDir": "dist",
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*", "src/global.d.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
