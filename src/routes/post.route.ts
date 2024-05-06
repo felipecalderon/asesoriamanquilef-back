@@ -1,7 +1,12 @@
 import { Router } from 'express'
-import { createPost, deletePost, editPost, getPosts } from '../controllers/post.controller'
+import {
+  createPost,
+  deletePost,
+  editPost,
+  getPosts,
+} from '../controllers/post.controller'
 
-const postsRoute  = Router()
+const postsRoute = Router()
 
 postsRoute.get('/', getPosts)
 postsRoute.post('/', createPost)
